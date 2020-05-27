@@ -13,6 +13,11 @@
       <div class="tri_override">
         <triangle />
       </div>
+      <div class="viz_links">
+      <a href="#bar2_graph">Jump to Berry Chart Visualization</a>
+      <br>
+      <a href="#radial_info">Jump to Flavor Breakdown Visualization</a>
+      </div>
       <div class="icon_scroll"></div>
       <article class="section_break">
         <h3 class="flavor_title">Is flavor quantifiable?</h3>
@@ -30,10 +35,20 @@
       <div class="breeding_scroll">
           <scrolly2 />
       </div>
-      <div class ="bar2_graph">
+      <div class ="bar2_graph" id ="bar2_graph">
           <bar2 />
       </div>
-      <div class ="radial_chart">
+      <div class="radial_info" id="radial_info">
+      <h2>Flavor Breakdown</h2>
+      <p>Click on the radial flavor abstraction areas under a variety name to explore a profile<br><br>
+        Hover over the nodes where the radial area overlaps category lines<br><br>
+        This action will highlight the category name and display the ranking in that variety<br><br>
+        Rankings for each variety will be displayed under the other radial areas for comparison<br><br>
+        Click on another radial area once a comparison of interest is discovered
+      </p>
+      <img src="~static/radial_info.png" width="463.77px" height="300px">
+      </div>
+      <div class ="radial_chart" id ="radial_chart">
           <!-- <radialBack /> -->
           <radial v-for="(variety,i) in radialData" 
           :key="i" 
@@ -85,6 +100,10 @@ export default {
 
 <style>
 
+html{
+  scroll-behavior:smooth;
+}
+
 body{
   background-color: #fffcf6;
 }
@@ -129,10 +148,43 @@ body{
   padding-top: 0px;
 }
 
+.viz_links {
+  font-family: 'HelveticaNeue-Light';
+  -webkit-text-fill-color: #0b4780;
+  align-items: right;
+  justify-content: right;
+  text-align: right;
+}
+
 .bar2_graph {
   justify-content: center;
   align-items: center;
   margin-bottom: 300px; 
+}
+
+.radial_info h2{
+  font-family: "DM Serif Display'";
+  font-size: 50px;
+  -webkit-text-fill-color: #0b4780;
+}
+
+.radial_info p{
+  font-family: "HelveticaNeue-Light";
+  font-size: 13px;
+  margin-top: 100px;
+  text-align: left;
+}
+
+.radial_info img{
+  align-items: right;
+  justify-content: right;
+  text-align: right;
+}
+
+.radial_info {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 200px;
 }
 
 .variety{

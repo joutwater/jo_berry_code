@@ -127,11 +127,11 @@ for(let i = 0 ; i < arrayLength; i++) {
 			.style("left", "0%")
 			.attr("width",  (cfg.width + cfg.margin.left + cfg.margin.right)/3)
 			.attr("height", (cfg.height + cfg.margin.top + cfg.margin.bottom)/3.5)
-			.attr("class", "radar" + _this.id);
+			.attr("class", "radar" + _this.id + " radar");
 	//Append a g element		
 	var g = svg.append("g")
 			.attr("transform", "translate(" + ((cfg.width/2 + cfg.margin.left)/3) + "," + ((cfg.height/2 + cfg.margin.top)/3.5) + ")")
-			.attr("class", "transformRadar" + _this.id);
+			.attr("class", "transformRadar" + _this.id + " transformRadar");
 	//Filter for the outside glow
 	var filter = g.append('defs').append('filter').attr('id','glow'),
 		feGaussianBlur = filter.append('feGaussianBlur').attr('stdDeviation','2.5').attr('result','coloredBlur'),
@@ -154,7 +154,7 @@ for(let i = 0 ; i < arrayLength; i++) {
 	   .data(d3.range(1,(cfg.levels+1)).reverse())
 	   .enter()
 		.append("circle")
-		.attr("class", "gridCircle" + _this.id)
+		.attr("class", "gridCircle" + _this.id + " gridCircle")
 		.attr("r", function(d, i){return (radius/cfg.levels*d)/3;})
 		.style("fill", "none")
 		.style("stroke", "lightgray")
@@ -222,7 +222,85 @@ for(let i = 0 ; i < arrayLength; i++) {
 			var clickedObj = document.getElementById("radial-" + _this.id);
 			var clickedObjId = clickedObj.id.split("-")[1];
 
-		
+		/////////// default size
+
+				for(let index in varietyName){
+
+				d3.selectAll(".radarArea")
+					.transition().duration(500)
+					.attr("d", radarLine.radius(function(d,i) { return (rScale2[i](d.value)/3); }))
+					.style("fill", "#fffcf6")
+					.style("fill-opacity", "0")
+					.style("stroke-opacity", 1.0)
+					.style("stroke-width", "1px");
+
+				d3.selectAll('.gridCircle' + index)
+					.transition().duration(500)
+					.attr("r", function(d, i){return (radius/cfg.levels*d)/3;})
+					.style("stroke-opacity", "0");
+
+				d3.selectAll('.line' + index)
+					.transition().duration(500)
+					.attr("x2", function(d, i){ return rScale(maxValue/3) * Math.cos(angleSlice*i - Math.PI/2); })
+					.attr("y2", function(d, i){ return rScale(maxValue/3) * Math.sin(angleSlice*i - Math.PI/2); })
+					.style("stroke-opacity", "0");
+				
+				d3.selectAll('.legend')
+					.transition().duration(0)
+					.style("font-size", "0px");
+				
+				d3.selectAll(".variety" + index)
+					.transition().duration(500)
+					.style("position", "relative")
+					.style("top", "0px")
+					.style("left", "0%")
+					.style("font-size", "22px");
+
+				d3.selectAll(".radar" + index)
+					.transition().duration(500)
+					.attr("width",  (cfg.width + cfg.margin.left + cfg.margin.right)/3)
+					.attr("height", (cfg.height + cfg.margin.top + cfg.margin.bottom)/3.5);
+
+				d3.selectAll(".transformRadar" + index)
+					.transition().duration(500)	
+					.attr("transform", "translate(" + ((cfg.width/2 + cfg.margin.left)/3) + "," + ((cfg.height/2 + cfg.margin.top)/3.5) + ")");
+				
+				d3.selectAll(".radar" + index)
+					.style("position", "relative")
+					.style("top", "0px")
+					.style("left", "0%");
+
+				d3.selectAll(".radarCircle" + index)
+					.attr("cx", function(d,i){ return rScale2[i](d.value)/3 * Math.cos(angleSlice*i - Math.PI/2); })
+					.attr("cy", function(d,i){ return rScale2[i](d.value)/3 * Math.sin(angleSlice*i - Math.PI/2); })
+					.attr("r", 0)
+					.style("fill-opacity", 0);
+
+				d3.selectAll(".radarInvisibleCircle" + index)
+					.attr("r", 0)
+					.attr("cx", function(d,i){ return rScale2[i](d.value)/3 * Math.cos(angleSlice*i - Math.PI/2); })
+					.attr("cy", function(d,i){ return rScale2[i](d.value)/3 * Math.sin(angleSlice*i - Math.PI/2); });
+				
+				d3.selectAll(".line")
+					.transition().duration(200)
+					.attr("x2", function(d, i){ return rScale(maxValue*1.0)/3 * Math.cos(angleSlice*i - Math.PI/2); })
+					.attr("y2", function(d, i){ return rScale(maxValue*1.0)/3 * Math.sin(angleSlice*i - Math.PI/2); })
+					.style("stroke-opacity", 0);
+
+				d3.selectAll(".radarCircle")
+					.attr("r", 0)
+					.style("fill-opacity", 0);
+				
+				d3.selectAll(".tooltip")
+					.style("font-size", "0px");
+				
+				d3.selectAll(".rank")
+					.text("");
+
+					console.log("working");
+				}
+		//////////
+			
 			if (!this.isOn) {
 				this.isOn = true;
 
@@ -397,104 +475,7 @@ for(let i = 0 ; i < arrayLength; i++) {
 				// 	.style("stroke-opacity", 0);
 			
 			}
-
-			/*
-			
-			d3.select(this)
-				.transition().duration(500)
-				.attr("d", radarLine.radius(function(d,i) { return (rScale2[i](d.value)*2); }))
-				.style("fill", "#0b4780")
-				.style("fill-opacity", 0.6);
-
-			d3.selectAll('.gridCircle' + _this.id)
-				.transition().duration(500)
-				.style("stroke-opacity", "1")
-				.attr("r", function(d, i){return (radius*2)/cfg.levels*d;});
-
-			d3.selectAll('.line' + _this.id)
-				.transition().duration(500)
-				.attr("x2", function(d, i){ return rScale(maxValue*2.0) * Math.cos(angleSlice*i - Math.PI/2); })
-				.attr("y2", function(d, i){ return rScale(maxValue*2.0) * Math.sin(angleSlice*i - Math.PI/2); })
-				.style("stroke-opacity", "1");
-
-			d3.selectAll('.legend' + _this.id)
-				.transition().duration(2000)
-				.style("font-size", "8px");
-			
-			d3.selectAll(".radar" + _this.id)
-				.transition().duration(500)
-				.attr("width",  (cfg.width + cfg.margin.left + cfg.margin.right)*2)
-				.attr("height", (cfg.height + cfg.margin.top + cfg.margin.bottom)*2);
-
-			d3.selectAll(".transformRadar" + _this.id)
-				.transition().duration(500)	
-				.attr("transform", "translate(" + ((cfg.width/2 + cfg.margin.left)*2) + "," + ((cfg.height/2 + cfg.margin.top)*2) + ")");
-			
-			d3.selectAll(".radarCircle" + _this.id)
-				.transition().duration(500)
-				.attr("cx", function(d,i){ return rScale2[i](d.value)*2 * Math.cos(angleSlice*i - Math.PI/2); })
-				.attr("cy", function(d,i){ return rScale2[i](d.value)*2 * Math.sin(angleSlice*i - Math.PI/2); });
-			
-			d3.selectAll(".radarInvisibleCircle" + _this.id)
-			.attr("cx", function(d,i){ return rScale2[i](d.value)*2 * Math.cos(angleSlice*i - Math.PI/2); })
-			.attr("cy", function(d,i){ return rScale2[i](d.value)*2 * Math.sin(angleSlice*i - Math.PI/2); });
-
-			*/
 		});
-		
-
-		// .on('mouseout', function(){
-		// // 	//Bring blob to original style
-		// 	d3.selectAll(".radarArea")
-		// 		.transition().duration(500)
-		// 		.attr("d", radarLine.radius(function(d,i) { return (rScale2[i](d.value)); }))
-		// 		.style("fill", "#fffcf6")
-		// 		.style("fill-opacity", "0");
-
-		// 	d3.selectAll('.gridCircle' + _this.id)
-		// 		.transition().duration(500)
-		// 		.attr("r", function(d, i){return (radius)/cfg.levels*d;})
-		// 		.style("stroke-opacity", "0");
-
-		// 	d3.selectAll('.line' + _this.id)
-		// 		.transition().duration(500)
-		// 		.attr("x2", function(d, i){ return rScale(maxValue*1.0) * Math.cos(angleSlice*i - Math.PI/2); })
-		// 		.attr("y2", function(d, i){ return rScale(maxValue*1.0) * Math.sin(angleSlice*i - Math.PI/2); })
-		// 		.style("stroke-opacity", "0");
-			
-		// 	d3.selectAll('.legend' + _this.id)
-		// 		.transition().duration(0)
-		// 		.style("font-size", "0px");
-
-		// 	d3.selectAll(".radar" + _this.id)
-		// 		.transition().duration(500)
-		// 		.attr("width",  (cfg.width + cfg.margin.left + cfg.margin.right))
-		// 		.attr("height", (cfg.height + cfg.margin.top + cfg.margin.bottom));
-
-		// 	d3.selectAll(".transformRadar" + _this.id)
-		// 		.transition().duration(500)	
-		// 		.attr("transform", "translate(" + ((cfg.width/2 + cfg.margin.left)) + "," + ((cfg.height/2 + cfg.margin.top)) + ")");
-		// });
-		
-	//Create the outlines	
-	// blobWrapper.append("path")
-	// 	.attr("class", "radarStroke")
-	// 	.attr("d", function(d,i) { return radarLine(d); })
-	// 	.style("stroke-width", cfg.strokeWidth + "px")
-	// 	.style("stroke", function(d,i) { return cfg.color(i); })
-	// 	.style("fill", "none")
-	// 	.on('mouseover', function(d,i){
-	// 		d3.select(this)
-	// 			.transition().duration(0)
-	// 			.style("fill", "#0b4780")
-	// 			.style("fill-opacity", 0.5);
-	// 	})
-	// 	.on('mouseout', function(){
-	// 		d3.selectAll(".radarStroke")
-	// 			.transition().duration(0)
-	// 			.style("fill", "#fffcf6")
-	// 			.style("fill-opacity", "0")
-	// 	});
 	
 	// Append the circles
 	blobWrapper.selectAll(".radarCircle")
@@ -520,7 +501,7 @@ for(let i = 0 ; i < arrayLength; i++) {
 	blobCircleWrapper.selectAll(".radarInvisibleCircle")
 		.data(function(d,i) { return d; })
 		.enter().append("circle")
-		.attr("class", "radarInvisibleCircle" + _this.id)
+		.attr("class", "radarInvisibleCircle" + _this.id + " radarInvisibleCircle")
 		.attr("r", 0)
 		.attr("cx", function(d,i){ return rScale2[i](d.value)/3 * Math.cos(angleSlice*i - Math.PI/2); })
 		.attr("cy", function(d,i){ return rScale2[i](d.value)/3 * Math.sin(angleSlice*i - Math.PI/2); })

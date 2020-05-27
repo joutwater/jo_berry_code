@@ -1,6 +1,6 @@
 <template>
     <div class="ultimate">
-    <!-- <h4 id="dropTitle">Select Category:</h4> -->
+    <h2 id="dropTitle">Berry Chart</h2>
     <div class="drop"></div>
     <el-select id="newDrop" v-model="selectedValue" placeholder="Select" @change="updateBars">
     <el-option
@@ -159,21 +159,12 @@ let _this=this;
 	var yAxis = d3.axisLeft()
 		.scale(y);
 
-// var selector = d3.select("#newDrop")
-//     	// .append("select")
-//     	// .attr("id","dropdown")
-//     	.on("change", function(d){
-//             console.log("change")
-//         	selection = document.getElementById("newDrop");
-
         	y.domain([d3.min(data, function(d){return +d[_this.selectedValue];}), d3.max(data, function(d){return +d[_this.selectedValue];})]);
 
         	yAxis.scale(y);
 
             d3.selectAll(".berry_img")
                 .transition()
-           		// .duration(2000)
-                // .ease("bounce")
 	            .attr("y", function(d){
 					return y(+d[_this.selectedValue]);
 				})
@@ -188,18 +179,6 @@ let _this=this;
            	d3.selectAll("g.y.axis")
            		.transition()
            		.call(yAxis);
-
-        //  });
-
-    // selector.selectAll("option")
-    //   .data(elements)
-    //   .enter().append("option")
-    //   .attr("text", function(d){
-    //     return d;
-    //   })
-    //   .text(function(d){
-    //     return d;
-    //   })
 
   }
 
@@ -224,13 +203,14 @@ let _this=this;
 }
 
 #dropTitle{
-    font-family: "HelveticaNeue-Light";
+    font-family: "DM Serif Display'";
+    font-size: 50px;
+    -webkit-text-fill-color: #0b4780;
     background-color: #fffcf6;
     display: flex;
     align-content: left;
-    /* margin-left: 40%; */
-    padding-top: 200px;
-    padding-bottom: 10px;
+    /* padding-top: 200px; */
+    padding-bottom: 20px;
 }
 
 .svgBar{
