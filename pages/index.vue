@@ -170,7 +170,7 @@ body{
 
 .radial_info p{
   font-family: "HelveticaNeue-Light";
-  font-size: 13px;
+  font-size: 14px;
   margin-top: 100px;
   text-align: left;
 }
