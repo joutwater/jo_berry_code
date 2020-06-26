@@ -2,7 +2,6 @@
 ## The role of flavor perception in modern blueberry breeding
 Find PROCESS page [HERE](https://github.com/joutwater/thesis)  
 
-Some Markdown text with <span style="color:blue">some *blue* text</span>
 ![](preview.png)
 
 Author: John Outwater  
